@@ -4,5 +4,3 @@ faltas = int(media_falta[1])
 
 if media >= 6.0 and faltas <= 30:
     print("Aprovado!")
-else:
-    print()
