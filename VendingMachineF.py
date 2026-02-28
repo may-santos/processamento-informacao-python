@@ -23,8 +23,9 @@ def main():
         if valor_troco == 0:
             break
         
-        num_denominacoes = int(linha[1])
-        denominacoes = list(map(int, input().split()))
+        num_denominacoes = int(linha[1])  # Lê a quantidade
+        denominacoes_input = input().split()
+        denominacoes = [int(denominacoes_input[i]) for i in range(num_denominacoes)]  # Usa apenas as N primeiras
         
         resultado = calcular_troco_guloso(valor_troco, denominacoes)
         
