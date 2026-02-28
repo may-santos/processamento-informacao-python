@@ -1,17 +1,22 @@
-def calcular_troco_dp(valor_troco, denominacoes):
+def calcular_troco_guloso(valor_troco, denominacoes):
     """
-    Calcula o menor número de moedas usando programação dinâmica.
+    Calcula o troco usando algoritmo guloso (maior denominação primeiro).
+    Mais rápido: O(N log N)
     """
-    # dp[i] = menor quantidade de moedas para fazer valor i
-    dp = [float('inf')] * (valor_troco + 1)
-    dp[0] = 0  # 0 moedas para troco 0
+    denominacoes_ordenadas = sorted(denominacoes, reverse=True)
+    quantidade_total = 0
+    valor_restante = valor_troco
     
-    for i in range(1, valor_troco + 1):
-        for moeda in denominacoes:
-            if moeda <= i and dp[i - moeda] != float('inf'):
-                dp[i] = min(dp[i], dp[i - moeda] + 1)
+    for denominacao in denominacoes_ordenadas:
+        if valor_restante >= denominacao:
+            qtd = valor_restante // denominacao
+            quantidade_total += qtd
+            valor_restante -= qtd * denominacao
     
-    return dp[valor_troco] if dp[valor_troco] != float('inf') else -1
+    if valor_restante > 0:
+        return -1
+    
+    return quantidade_total
 
 def main():
     resultados = []
@@ -26,15 +31,12 @@ def main():
         denominacoes_input = input().split()
         denominacoes = [int(denominacoes_input[i]) for i in range(num_denominacoes)]
         
-        resultado = calcular_troco_dp(valor_troco, denominacoes)
+        resultado = calcular_troco_guloso(valor_troco, denominacoes)
         
         if resultado == -1:
             resultados.append("impossivel")
         else:
             resultados.append(str(resultado))
         
-    for resultado in resultados:
-        print(resultado)
-
 if __name__ == "__main__":
     main()
